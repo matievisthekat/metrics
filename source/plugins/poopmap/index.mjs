@@ -11,12 +11,10 @@ export default async function({q, imports, data, account}, {enabled = false, tok
     const {days} = imports.metadata.plugins.poopmap.inputs({data, account, q})
     const {data:{poops}} = await imports.axios.get(`https://api.poopmap.net/api/v1/public_links/${token}`)
 
-    console.log(days);
-    
     const filteredPoops = poops.filter(poop => {
       const createdAt = new Date(poop.created_at)
       poop.created_at = createdAt.toString()
-      return createdAt > new Date().getTime() - (days * 24 * 60 * 60 * 1000)
+      return createdAt > new Date().getTime() - days * 24 * 60 * 60 * 1000
     })
 
     const hours = {max:0}
